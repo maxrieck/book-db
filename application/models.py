@@ -1,5 +1,6 @@
 from .extensions import db
-from sqlalchemy import String, Integer, ForeignKey, Table, Column
+from datetime import date
+from sqlalchemy import String, Integer, ForeignKey, Table, Column, Date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
@@ -21,6 +22,11 @@ class Book(db.Model):
     title:Mapped[str] = mapped_column(String(100), nullable=False)
     author:Mapped[str] = mapped_column(String(50))
     pages:Mapped[int] = mapped_column(Integer, nullable=False)
+
+    # New column for publishing date
+    published_at: Mapped[date] = mapped_column(Date, nullable=True)
+
+    book_type: Mapped[str] = mapped_column(String(50))
 
     publisher_id:Mapped[int] = mapped_column(Integer, ForeignKey("publisher.id"), nullable=False)
     publisher:Mapped["Publisher"] = relationship(back_populates="books")
